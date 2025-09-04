@@ -9,6 +9,7 @@ export class TodoService {
     const newTodo: ITodo = {
       id: this.todos.length + 1,
       title,
+      status:'active'
     }
     this.todos.push(newTodo)
     return newTodo

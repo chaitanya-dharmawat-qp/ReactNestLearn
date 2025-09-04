@@ -1,7 +1,7 @@
 import {Module} from '@nestjs/common'
 import {TodoController} from './application/controllers/TodoController'
 import {TodoService} from './application/services/TodoService'
-import {InfraModule} from '@modules/infra/InfraModule'
+
 import {
   TodoRepository,
   todoRepositoryProvider,
@@ -9,7 +9,7 @@ import {
 import { DatabaseModule } from '@modules/database/DatabaseModule'
 
 @Module({
-  imports: [InfraModule, DatabaseModule],
+  imports: [ DatabaseModule],
   controllers: [TodoController],
   providers: [TodoService, ...todoRepositoryProvider, TodoRepository],
   exports: [],
