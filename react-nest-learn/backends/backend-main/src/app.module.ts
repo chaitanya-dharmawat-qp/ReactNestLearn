@@ -4,6 +4,7 @@ import { resolve } from 'path';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { loadAppConfig } from './config/loadAppConfig';
 
 
 @Module({
