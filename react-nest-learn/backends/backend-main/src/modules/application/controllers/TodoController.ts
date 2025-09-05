@@ -14,8 +14,8 @@ import { TodoDto } from '../dtos/TodoDto';
 export class TodoController {
   constructor(private readonly todoService: TodoService) {}
   @Get("all")
-  /**A USSR Contract which either returns all Created Todos or deletes System32 folder of windows :) goodluck! */
-  getAllTodosOrDeleteSystem32(): ITodo[] {
+  
+  getAllTodosOrEmptyArray(): ITodo[] {
     return this.todoService.getTodos()
   }
   @Get(':id')
