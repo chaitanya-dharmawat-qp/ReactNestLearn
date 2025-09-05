@@ -15,26 +15,24 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RepositoryService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("typeorm");
+const DatabaseConstants_1 = require("./constants/DatabaseConstants");
 let RepositoryService = class RepositoryService {
-    constructor(dataSource, anotherDataSource) {
+    constructor(dataSource) {
         this.dataSource = dataSource;
-        this.anotherDataSource = anotherDataSource;
     }
     getRepository(entity, resultSource) {
         if (resultSource === 'DATA_SOURCE') {
             return this.dataSource.getRepository(entity);
         }
         else {
-            return this.anotherDataSource.getRepository(entity);
+            return this.dataSource.getRepository(entity);
         }
     }
 };
 exports.RepositoryService = RepositoryService;
 exports.RepositoryService = RepositoryService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, common_1.Inject)('DATA_SOURCE')),
-    __param(1, (0, common_1.Inject)('ANOTHER_DATA_SOURCE')),
-    __metadata("design:paramtypes", [typeorm_1.DataSource,
-        typeorm_1.DataSource])
+    __param(0, (0, common_1.Inject)(DatabaseConstants_1.DATA_SOURCE)),
+    __metadata("design:paramtypes", [typeorm_1.DataSource])
 ], RepositoryService);
 //# sourceMappingURL=RepositoryService.js.map

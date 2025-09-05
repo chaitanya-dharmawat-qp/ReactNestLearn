@@ -5,6 +5,7 @@ import { resolve } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { loadAppConfig } from './config/loadAppConfig';
+import { TodoModule } from '@modules/TodoModule';
 
 
 @Module({
@@ -16,6 +17,7 @@ import { loadAppConfig } from './config/loadAppConfig';
       ],
       load: [loadAppConfig],
     }),
+    TodoModule
   ],
   controllers: [AppController],
   providers: [AppService],

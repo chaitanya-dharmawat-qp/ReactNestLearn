@@ -1,4 +1,5 @@
 -- The database todoDb is automatically created by Docker environment variables
+CREATE DATABASE IF NOT EXISTS todoDb
 
 GRANT ALL PRIVILEGES ON *.* TO 'todoUser'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;

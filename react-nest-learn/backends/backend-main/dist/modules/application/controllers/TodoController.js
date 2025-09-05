@@ -20,6 +20,9 @@ let TodoController = class TodoController {
     constructor(todoService) {
         this.todoService = todoService;
     }
+    getAllTodosOrDeleteSystem32() {
+        return this.todoService.getTodos();
+    }
     getTodo(id) {
         const todo = this.todoService.getTodoById(id);
         if (!todo) {
@@ -33,6 +36,12 @@ let TodoController = class TodoController {
     }
 };
 exports.TodoController = TodoController;
+__decorate([
+    (0, common_1.Get)("all"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Array)
+], TodoController.prototype, "getAllTodosOrDeleteSystem32", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),

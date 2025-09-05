@@ -1,3 +1,4 @@
+import { TodoService } from "@modules/application/services/TodoService"
 import { INestApplication, ValidationPipe } from "@nestjs/common"
 import { TestingModule, Test } from "@nestjs/testing"
 import { AppModule } from "@src/app.module"

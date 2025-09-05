@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.loadAppConfig = void 0;
+const common_1 = require("@nestjs/common");
 const loadAppConfig = () => {
     const config = {
         app: {
@@ -14,6 +15,7 @@ const loadAppConfig = () => {
             databaseName: process.env.DB_NAME,
         },
     };
+    common_1.Logger.warn({ loadingAppConfig: config });
     return config;
 };
 exports.loadAppConfig = loadAppConfig;

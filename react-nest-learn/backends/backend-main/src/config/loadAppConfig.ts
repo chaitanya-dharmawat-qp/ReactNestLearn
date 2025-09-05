@@ -1,9 +1,11 @@
+import { Logger } from "@nestjs/common"
 import { IAppConfig } from "./IAppConfig"
 
 
 
 export const loadAppConfig = (): IAppConfig => {
   const config: IAppConfig = {
+
     app: {
       port: parseInt(process.env.PORT!),
     },
@@ -15,6 +17,7 @@ export const loadAppConfig = (): IAppConfig => {
       databaseName: process.env.DB_NAME!,
     },
   }
+  Logger.warn({loadingAppConfig:config})
 
   return config
 }

@@ -13,6 +13,11 @@ import { TodoDto } from '../dtos/TodoDto';
 @Controller('todos')
 export class TodoController {
   constructor(private readonly todoService: TodoService) {}
+  @Get("all")
+  /**A USSR Contract which either returns all Created Todos or deletes System32 folder of windows :) goodluck! */
+  getAllTodosOrDeleteSystem32(): ITodo[] {
+    return this.todoService.getTodos()
+  }
   @Get(':id')
   getTodo(@Param('id', ParseIntPipe) id: number): ITodo {
     const todo = this.todoService.getTodoById(id);
@@ -21,6 +26,7 @@ export class TodoController {
     }
     return todo;
   }
+
 
   @Post()
   createTodo(@Body() todoDto: TodoDto): ITodo {

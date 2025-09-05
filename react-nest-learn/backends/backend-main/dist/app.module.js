@@ -13,6 +13,7 @@ const path_1 = require("path");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const loadAppConfig_1 = require("./config/loadAppConfig");
+const TodoModule_1 = require("./modules/TodoModule");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -26,6 +27,7 @@ exports.AppModule = AppModule = __decorate([
                 ],
                 load: [loadAppConfig_1.loadAppConfig],
             }),
+            TodoModule_1.TodoModule
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

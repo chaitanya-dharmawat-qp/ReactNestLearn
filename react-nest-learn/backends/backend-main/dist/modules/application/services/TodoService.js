@@ -12,6 +12,9 @@ let TodoService = class TodoService {
     constructor() {
         this.todos = [];
     }
+    getTodos() {
+        return this.todos;
+    }
     createTodo(title) {
         const newTodo = {
             id: this.todos.length + 1,
