@@ -1,0 +1,44 @@
+{
+  "name": "main-app",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "format": "prettier --write .",
+    "format:ci": "prettier --check .",
+    "lint:ci": "eslint \"{src,apps,libs,test}/**/*.ts\" --max-warnings=0",
+    "dev": "vite",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "start:dev": "NODE_ENV=development vite",
+    "start:mock_dev": "NODE_ENV=development vite --mode mock",
+    "build": "NODE_ENV=production tsc -b && vite build"
+  },
+  "prettier": "@npm-questionpro/wick-ui-prettier-config",
+  "dependencies": {
+    "@npm-questionpro/wick-ui-lib": "^1.5.2",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.33.0",
+    "@npm-questionpro/wick-ui-prettier-config": "^1.0.0",
+    "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.7",
+    "@vitejs/plugin-react": "^5.0.0",
+    "eslint": "^9.33.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^16.3.0",
+    "msw": "^2.11.1",
+    "prettier": "^3.6.2",
+    "typescript": "~5.8.3",
+    "typescript-eslint": "^8.39.1",
+    "vite": "^7.1.2"
+  },
+  "msw": {
+    "workerDirectory": [
+      ""
+    ]
+  }
+}
