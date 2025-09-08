@@ -1,0 +1,4 @@
+# Ignore dist and node_modules in all packages
+**/dist/
+node_modules/
+**/node_modules/
