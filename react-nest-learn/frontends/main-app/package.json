@@ -12,7 +12,9 @@
     "preview": "vite preview",
     "start:dev": "NODE_ENV=development vite",
     "start:mock_dev": "NODE_ENV=development vite --mode mock",
-    "build": "NODE_ENV=production tsc -b && vite build"
+    "build": "NODE_ENV=production tsc -b && vite build",
+    "test": "vitest",
+    "test:ci": "vitest --coverage --watch=false"
   },
   "prettier": "@npm-questionpro/wick-ui-prettier-config",
   "dependencies": {
