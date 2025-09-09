@@ -17,15 +17,22 @@ export class ErrorLogRepository {
     @Inject('ERRORLOG_REPOSITORY')
     private repository: Repository<ErrorLogEntity>,
   ) {}
-  async logHttpExceptionToDb(exception: HttpException): Promise<ErrorLogEntity> {
-    const messages = Object.entries(exception.getResponse());
+  async logHttpExceptionToDb(
+    exception: HttpException,
+  ): Promise<ErrorLogEntity> {
+    let messages;
+    if (typeof exception.getResponse() === 'string') {
+      messages = exception.getResponse();
+    } else {
+      messages = Object.entries(exception.getResponse()).flat().at(1);
+    }
     const ex = this.repository.create({
       errorcode: exception.getStatus(),
-      errormessage: messages.flat().at(1),
+      errormessage: messages,
     });
-    const _savedexception = await this.repository.save(ex);
-    Logger.warn({ exceptionSavedToDb: _savedexception });
-    return _savedexception
+    const savedexception = await this.repository.save(ex);
+    Logger.warn({ exceptionSavedToDb: savedexception });
+    return savedexception;
   }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async logGenericExceptionToDb(exception: any): Promise<ErrorLogEntity> {

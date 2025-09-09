@@ -4,14 +4,12 @@ import {
   Controller,
   Delete,
   Get,
-  HttpException,
-  HttpStatus,
   Logger,
   Param,
   ParseIntPipe,
   Patch,
   Post,
-  Query,
+  Query
 } from '@nestjs/common';
 import { TodoDto } from '../dtos/TodoDto';
 import { TodoService } from '../services/TodoService';
@@ -29,15 +27,8 @@ export class TodoController {
   async getTodoOrThrowError(
     @Param('id', ParseIntPipe) id: number,
   ): Promise<TodoEntity> {
-    const todo = await this.todoService.getTodoByIdOrReturnNull(id);
-    if (todo) {
-      return todo;
-    } else {
-      throw new HttpException(
-        `Todo With Id:${id} Not Found`,
-        HttpStatus.NOT_FOUND,
-      );
-    }
+    const todo = await this.todoService.getTodoByIdOrThrowError(id);
+    return todo;
   }
   @Post()
   async createTodoOrThrowError(@Body() todoDto: TodoDto): Promise<ITodo> {
