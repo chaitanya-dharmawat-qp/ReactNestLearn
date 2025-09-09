@@ -17,20 +17,26 @@ export class ErrorLogRepository {
     @Inject('ERRORLOG_REPOSITORY')
     private repository: Repository<ErrorLogEntity>,
   ) {}
-  async logHttpExceptionToDb(exception: HttpException): Promise<void> {
+  async logHttpExceptionToDb(exception: HttpException): Promise<ErrorLogEntity> {
+    const messages = Object.entries(exception.getResponse());
     const ex = this.repository.create({
       errorcode: exception.getStatus(),
-      errormessage: exception.message,
+      errormessage: messages.flat().at(1),
     });
-    const savedexception = await this.repository.save(ex);
-    Logger.warn({ exceptionSavedToDb: savedexception });
+    const _savedexception = await this.repository.save(ex);
+    Logger.warn({ exceptionSavedToDb: _savedexception });
+    return _savedexception
   }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  async logGenericExceptionToDb(exception: any): Promise<void> {
+  async logGenericExceptionToDb(exception: any): Promise<ErrorLogEntity> {
     const message = exception?.message ?? 'Internal Server Error :' + exception;
     const ex = this.repository.create({
       errormessage: message ?? 'INTERNAL SERVER ERROR',
     });
-    await this.repository.save(ex);
+    return await this.repository.save(ex);
+  }
+  async getAllLogsFromDb(): Promise<ErrorLogEntity[]> {
+    const logs = await this.repository.find();
+    return logs ?? [];
   }
 }

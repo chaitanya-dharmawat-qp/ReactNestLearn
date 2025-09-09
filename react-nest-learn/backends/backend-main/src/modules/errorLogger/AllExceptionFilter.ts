@@ -17,33 +17,37 @@ export class AllExceptionsFilter implements ExceptionFilter {
     private readonly httpAdapterHost: HttpAdapterHost,
     private readonly errorLogService: ErrorLogService,
   ) {
-    // Logger.log('using all exceptions filter with dependencies'+httpAdapterHost+errorLogService);
+    this.errorLogService
+      .getAllLogsFromDb()
+      .then((errors) => Logger.warn({ fetcingAllErrors: errors }));
   }
 
   async catch(exception: unknown, host: ArgumentsHost): Promise<void> {
     const http = host.switchToHttp();
 
     try {
-      let errorMessage;
       let httpStatus;
+      let parsedException;
 
       if (exception instanceof HttpException) {
-        errorMessage = exception.message;
         httpStatus = exception.getStatus();
         // Log error if http status is >= 400 i.e. All server  errors
         if (httpStatus >= 400) {
           this.logger.error(exception.stack);
-          await this.errorLogService.logToDb(exception);
+          parsedException = await this.errorLogService.logToDb(exception);
         }
       } else if (exception) {
         this.logger.error(exception);
         httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-        errorMessage = errorMessage ?? 'Internal server error';
-        await this.errorLogService.logGenericErrorToDb(exception);
+        parsedException =
+          await this.errorLogService.logGenericErrorToDb(exception);
       }
       this.httpAdapterHost.httpAdapter.reply(
         http.getResponse(),
-        errorMessage,
+        {
+          message: parsedException?.errormessage??"Internal Server Error",
+          code: parsedException?.errorcode??500,
+        },
         httpStatus,
       );
     } catch (error) {

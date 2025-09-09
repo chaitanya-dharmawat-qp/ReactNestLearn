@@ -1,10 +1,7 @@
-import { IsNotEmpty, Length } from 'class-validator';
+import { IsNotEmpty } from "class-validator";
 
 export class TodoDto {
-  @Length(2, 9999, {
-    message: 'May the title of your todo have min 2 characters ',
-    always: false,
-  })
+
   @IsNotEmpty({
     always: true,
     message: 'Title Of Todo May Not Be Empty This Is Pre Condition of TodoDto',
