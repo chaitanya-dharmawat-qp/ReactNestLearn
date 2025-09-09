@@ -1,5 +1,4 @@
-
-import { ErrorLogEntity } from '@src/ExceptionFilter/entities/ErrorLogEntity';
+import { ErrorLogEntity } from '@modules/errorLogger/entities/ErrorLogEntity';
 import { DataSource } from 'typeorm';
 import { ANOTHER_DATA_SOURCE } from '../constants/DatabaseConstants';
 
@@ -15,7 +14,7 @@ export const anotherDatabaseProviders = [
         password: 'todoPwd',
         database: 'errorLogDb',
         // entities: [__dirname + '/../../**/ErrorLogEntity{.ts,.js}'],
-        entities:[ErrorLogEntity],
+        entities: [ErrorLogEntity],
         synchronize: true,
       });
 

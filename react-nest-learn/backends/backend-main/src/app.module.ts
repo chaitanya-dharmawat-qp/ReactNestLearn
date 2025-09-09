@@ -8,11 +8,10 @@ import { APP_FILTER } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { loadAppConfig } from './config/loadAppConfig';
-import { AllExceptionsFilter } from './ExceptionFilter/AllExceptionFilter';
+import { AllExceptionsFilter } from '@modules/errorLogger/AllExceptionFilter';
 
 @Module({
   imports: [
-
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: [

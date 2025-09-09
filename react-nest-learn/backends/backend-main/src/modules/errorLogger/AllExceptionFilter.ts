@@ -41,7 +41,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
         errorMessage = errorMessage ?? 'Internal server error';
         await this.errorLogService.logGenericErrorToDb(exception);
       }
-       this.httpAdapterHost.httpAdapter.reply(
+      this.httpAdapterHost.httpAdapter.reply(
         http.getResponse(),
         errorMessage,
         httpStatus,

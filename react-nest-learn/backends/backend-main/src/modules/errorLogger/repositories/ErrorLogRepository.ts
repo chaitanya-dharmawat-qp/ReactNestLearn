@@ -1,4 +1,4 @@
-import { HttpException, Inject, Injectable } from '@nestjs/common';
+import { HttpException, Inject, Injectable, Logger } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { ErrorLogEntity } from '../entities/ErrorLogEntity';
 
@@ -22,7 +22,8 @@ export class ErrorLogRepository {
       errorcode: exception.getStatus(),
       errormessage: exception.message,
     });
-    await this.repository.save(ex);
+    const savedexception = await this.repository.save(ex);
+    Logger.warn({ exceptionSavedToDb: savedexception });
   }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async logGenericExceptionToDb(exception: any): Promise<void> {

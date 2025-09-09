@@ -3,11 +3,11 @@ import { Module } from '@nestjs/common';
 import {
   ErrorLogRepository,
   errorLogRepositoryProvider,
-} from '@src/ExceptionFilter/repositories/ErrorLogRepository';
-import { ErrorLogService } from '@src/ExceptionFilter/services/ErrorLogService';
+} from '@modules/errorLogger/repositories/ErrorLogRepository';
+import { ErrorLogService } from '@modules/errorLogger/services/ErrorLogService';
 
 @Module({
-  imports: [DatabaseModule, ],
+  imports: [DatabaseModule],
   providers: [
     ...errorLogRepositoryProvider,
     ErrorLogService,
