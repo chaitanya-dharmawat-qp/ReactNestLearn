@@ -9,7 +9,7 @@ import { APP_FILTER } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { loadAppConfig } from './config/loadAppConfig';
-import { DatabaseModule } from '@modules/database/DatabaseModule';
+import { AllExceptionsFilter } from '@modules/errorLogger/AllExceptionFilter';
 
 @Module({
   imports: [

@@ -1,7 +1,10 @@
-import { DatabaseModule } from "@modules/database/DatabaseModule";
-import { Module } from "@nestjs/common";
-import { errorLogRepositoryProvider, ErrorLogRepository } from "./repositories/ErrorLogRepository";
-import { ErrorLogService } from "./services/ErrorLogService";
+import { DatabaseModule } from '@modules/database/DatabaseModule';
+import { Module } from '@nestjs/common';
+import {
+  ErrorLogRepository,
+  errorLogRepositoryProvider,
+} from '@modules/errorLogger/repositories/ErrorLogRepository';
+import { ErrorLogService } from '@modules/errorLogger/services/ErrorLogService';
 
 @Module({
   imports: [DatabaseModule],

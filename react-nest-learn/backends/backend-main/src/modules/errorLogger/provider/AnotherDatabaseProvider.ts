@@ -1,3 +1,4 @@
+import { ErrorLogEntity } from '@modules/errorLogger/entities/ErrorLogEntity';
 import { DataSource } from 'typeorm';
 import { ANOTHER_DATA_SOURCE } from '../../database/constants/DatabaseConstants';
 
@@ -13,9 +14,9 @@ export const anotherDatabaseProviders = [
         username: 'todoUser',
         password: 'todoPwd',
         database: 'errorLogDb',
-        entities: ['/../../**/Entity{.ts,.js}'],
-        // entities:[ErrorLogEntity],
-        synchronize: true, //TODO:disable
+        // entities: [__dirname + '/../../**/ErrorLogEntity{.ts,.js}'],
+        entities: [ErrorLogEntity],
+        synchronize: true,
       });
 
       const ds = await dataSource.initialize();
