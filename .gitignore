@@ -2,6 +2,3 @@ dist/
 **/dist/
 **/node_modules/
 node_modules/
-react-nest-learn/backends/backend-main/dist/modules/database/providers/AnotherDatabaseProvider.js.map
-react-nest-learn/backends/backend-main/dist/modules/database/providers/AnotherDatabaseProvider.js
-react-nest-learn/backends/backend-main/dist/tsconfig.build.tsbuildinfo
