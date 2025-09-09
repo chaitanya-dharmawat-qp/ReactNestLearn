@@ -10,10 +10,13 @@ exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const path_1 = require("path");
+const ErrorLoggerModule_1 = require("./modules/errorLogger/ErrorLoggerModule");
+const TodoModule_1 = require("./modules/todo/TodoModule");
+const core_1 = require("@nestjs/core");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const loadAppConfig_1 = require("./config/loadAppConfig");
-const TodoModule_1 = require("./modules/TodoModule");
+const AllExceptionFilter_1 = require("./ExceptionFilter/AllExceptionFilter");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -27,10 +30,14 @@ exports.AppModule = AppModule = __decorate([
                 ],
                 load: [loadAppConfig_1.loadAppConfig],
             }),
-            TodoModule_1.TodoModule
+            TodoModule_1.TodoModule,
+            ErrorLoggerModule_1.ErrorLoggerModule,
         ],
         controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService],
+        providers: [
+            app_service_1.AppService,
+            { provide: core_1.APP_FILTER, useClass: AllExceptionFilter_1.AllExceptionsFilter },
+        ],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

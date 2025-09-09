@@ -1,10 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.anotherDatabaseProviders = void 0;
+const ErrorLogEntity_1 = require("../../../ExceptionFilter/entities/ErrorLogEntity");
 const typeorm_1 = require("typeorm");
+const DatabaseConstants_1 = require("../constants/DatabaseConstants");
 exports.anotherDatabaseProviders = [
     {
-        provide: 'ANOTHER_DATA_SOURCE',
+        provide: DatabaseConstants_1.ANOTHER_DATA_SOURCE,
         useFactory: async () => {
             const dataSource = new typeorm_1.DataSource({
                 type: 'mysql',
@@ -12,8 +14,9 @@ exports.anotherDatabaseProviders = [
                 port: 3306,
                 username: 'todoUser',
                 password: 'todoPwd',
-                database: 'todoDb2',
-                entities: [__dirname + '/../../**/*Entity{.ts,.js}'],
+                database: 'errorLogDb',
+                entities: [ErrorLogEntity_1.ErrorLogEntity],
+                synchronize: true,
             });
             const ds = await dataSource.initialize();
             return ds;

@@ -2,14 +2,17 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { resolve } from 'path';
 
+import { ErrorLoggerModule } from '@modules/errorLogger/ErrorLoggerModule';
+import { TodoModule } from '@modules/todo/TodoModule';
+import { APP_FILTER } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { loadAppConfig } from './config/loadAppConfig';
-import { TodoModule } from '@modules/TodoModule';
-
+import { AllExceptionsFilter } from './ExceptionFilter/AllExceptionFilter';
 
 @Module({
   imports: [
+
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: [
@@ -17,9 +20,13 @@ import { TodoModule } from '@modules/TodoModule';
       ],
       load: [loadAppConfig],
     }),
-    TodoModule
+    TodoModule,
+    ErrorLoggerModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    { provide: APP_FILTER, useClass: AllExceptionsFilter },
+  ],
 })
 export class AppModule {}

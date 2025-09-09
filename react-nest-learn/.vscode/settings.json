@@ -1,9 +1,11 @@
 {
-    "cSpell.words": [
-        "dtos",
-        "initdb",
-        "mysqladmin",
-        "ptodo",
-        "rootpw"
-    ]
+  "cSpell.words": [
+    "dtos",
+    "initdb",
+    "mysqladmin",
+    "newtodo",
+    "oldtodo",
+    "ptodo",
+    "rootpw"
+  ]
 }

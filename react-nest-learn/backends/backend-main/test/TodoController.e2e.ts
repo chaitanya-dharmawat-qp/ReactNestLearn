@@ -1,4 +1,4 @@
-import { TodoDto } from '@modules/application/dtos/TodoDto';
+import { TodoDto } from '@modules/todo/application/dtos/TodoDto';
 import { ITestApp, testSetupUtil } from '@test/TestSetupUtil';
 import * as request from 'supertest';
 
@@ -31,7 +31,7 @@ describe('TodoController E2E Tests', () => {
       const response = await request(testApp.app.getHttpServer())
         .get('/todos/all')
         .send();
-      
+
       expect(response.body).toHaveLength(1);
     });
   });

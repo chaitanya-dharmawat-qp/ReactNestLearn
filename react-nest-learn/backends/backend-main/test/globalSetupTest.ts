@@ -1,9 +1,9 @@
 import {ensureDockerContainerRunning} from './TestDatabaseUtil'
 import {testEnvLoader} from './utils/TestEnvLoader'
 
-testEnvLoader.loadTestEnvironment()
 module.exports = async (): Promise<void> => {
   console.log('\n🚀 GLOBAL SETUP START')
+  testEnvLoader.loadTestEnvironment()
 
   // First, ensure Docker container is running
   console.log('🐳 Checking Docker container status...')

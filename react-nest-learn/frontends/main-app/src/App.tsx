@@ -1,5 +1,6 @@
-import { WuPrimaryNavbar } from '@npm-questionpro/wick-ui-lib'
-import { useState } from 'react'
+import { WuLoader, WuPrimaryNavbar } from '@npm-questionpro/wick-ui-lib'
+import { useQuery, type UseQueryResult } from '@tanstack/react-query'
+import { AppRoutes } from './AppRoutes'
 import { API_BASE_URL } from './constants/appConstants'
 import type { IServerResponse } from './types/IServerResponse'
 import type { IUser } from './types/IUser'
@@ -19,26 +20,16 @@ const fetchUser = async (): Promise<IServerResponse<IUser>> => {
   })
 }
 
+const useUserApi = ():UseQueryResult<IServerResponse<IUser>,Error> => {
+  return useQuery({queryKey:['user'],queryFn:fetchUser})
+}
 export function App() {
-  const [userData, setUserData] = useState<IUser>()
-  const [errorMessage, setErrorMessage] = useState<string>()
-  fetchUser()
-    .then(response => {
-      if (response.data) {
-        setUserData(response.data)
-      } else {
-        setErrorMessage('Error in fetching User Data' + response.message)
-        // throw Error("Error in fetching user Data Response Object:"+response)
-      }
-    })
-    .catch(e => {
-      setErrorMessage(e)
-    })
+  const {data,error,isLoading}=useUserApi()
   return (
     <>
       <p>helm</p>
-      {errorMessage && (
-        <p style={{color: 'red'}}>Error Occurred : {errorMessage}</p>
+      {error && (
+        <p style={{color: 'red'}}>Error Occurred : {error.message}</p>
       )}
       <WuPrimaryNavbar
         Links={[
@@ -56,7 +47,9 @@ export function App() {
           </a>,
         ]}
       />
-      {userData && <h1>{`User Name: ${userData?.name}`}</h1>}
+      {isLoading && <WuLoader title='Loading'/>}
+      {data && <h1>{`User Name: ${data?.data.name}`}</h1>}
+      <AppRoutes/>
     </>
   )
 }

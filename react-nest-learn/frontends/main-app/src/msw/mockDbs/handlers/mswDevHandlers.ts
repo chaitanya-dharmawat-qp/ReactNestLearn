@@ -1,7 +1,7 @@
 // file path: src/msw/handlers/mswDevHandlers.ts
 import {HttpResponse, http} from 'msw'
 import {userMockDb} from '../mockDbs/userMockDb'
-import {API_BASE_URL} from '../../constants/appConstants'
+import {API_BASE_URL} from '../../constants/appConstants.ts'
 import type { IUser } from '../../../types/IUser'
 
 

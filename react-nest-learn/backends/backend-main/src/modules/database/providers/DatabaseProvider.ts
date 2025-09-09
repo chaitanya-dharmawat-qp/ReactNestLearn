@@ -20,6 +20,7 @@ export const databaseProviders = [
         password: databaseConfig.password,
         database: databaseConfig.databaseName,
         entities: [__dirname + '/../../**/*Entity{.ts,.js}'],
+        synchronize:true //TODO:Remove in production
       })
 
       const db = await dataSource.initialize()

@@ -7,7 +7,7 @@ import {
 } from '@testing-library/react'
 
 import type {ReactElement} from 'react'
-import { AppProviders } from '../providers/AppProvider';
+import {AppProviders} from '../providers/AppProvider'
 
 const GLOBAL_ROUTE_PREFIX = ''
 
@@ -15,8 +15,8 @@ export const testUtil = {
   waitForLoadingToFinish: (): Promise<void> =>
     waitForElementToBeRemoved(
       () => [
-        ...screen.queryAllByTestId('spinner'),
         ...screen.queryAllByLabelText(/loading/i),
+        ...screen.queryAllByTestId('spinner'),
         ...screen.queryAllByText(/loading/i),
       ],
       {timeout: 10000},

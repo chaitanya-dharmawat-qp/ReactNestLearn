@@ -1,0 +1,5 @@
+// file path: src/constants/appConstants.ts
+export const IS_TEST_ENV = import.meta.env.MODE === 'test'
+export const IS_DEV_ENV = import.meta.env.MODE === 'development'
+export const API_BASE_URL = ''
+export const IS_MOCK_ENV = import.meta.env.MODE === 'mock'
