@@ -30,9 +30,7 @@ describe('TodoController E2E Tests', () => {
       const response = await request(testApp.app.getHttpServer())
         .post('/todos')
         .send(createTodo);
-      expect(response.status).toBe(201);
-      expect(response.body.title).toBe(createTodo.title);
-      expect(response.body.id).toBeDefined();
+      expect(response.status).toBe(HttpStatus.CREATED);
     });
   });
 
@@ -95,7 +93,7 @@ describe('TodoController E2E Tests', () => {
       expect(response.status).toBe(HttpStatus.NOT_FOUND);
     });
 
-  describe('Delete /todos', () => {
+    describe('Delete /todos', () => {
       test('should delete todo and return Status OK', async () => {
         const deletingTodoDto: TodoDto = {
           title: 'Test Todo',

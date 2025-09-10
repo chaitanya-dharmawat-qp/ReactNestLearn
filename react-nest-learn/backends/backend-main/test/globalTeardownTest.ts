@@ -1,24 +1,25 @@
-import {execSync} from 'child_process'
-import * as path from 'path'
+import { execSync } from 'child_process';
+import * as path from 'path';
 
 module.exports = async (): Promise<void> => {
-  console.log('🏁 GLOBAL TEARDOWN START')
+  console.log('🏁 GLOBAL TEARDOWN START');
 
   try {
     const dockerComposePath = path.join(
       __dirname,
       '..',
       'docker-compose.test.yml',
-    )
-    console.log('🚀 Starting MySQL test container...')
+    );
+    console.log('🚀 Starting MySQL test container...');
     // Start the container using docker-compose
     execSync(`docker-compose -f ${dockerComposePath} down`, {
       encoding: 'utf8',
-    })
+    });
+    await new Promise(() => setTimeout(() => {}, 3000));
   } catch (error) {
-    console.error('❌ Error starting Docker container:', error)
-    throw new Error('Failed to start MySQL Docker container')
+    console.error('❌ Error starting Docker container:', error);
+    throw new Error('Failed to start MySQL Docker container');
   }
 
-  console.log('✅ GLOBAL TEARDOWN END')
-}
+  console.log('✅ GLOBAL TEARDOWN END');
+};

@@ -19,7 +19,7 @@ const startTestApp = async (): Promise<ITestApp> => {
   return {
     app,
     moduleRef,
-    services: {todoService: moduleRef.get<TodoService>(TodoService),},
+    services: { todoService: moduleRef.get<TodoService>(TodoService) },
   };
 };
 
