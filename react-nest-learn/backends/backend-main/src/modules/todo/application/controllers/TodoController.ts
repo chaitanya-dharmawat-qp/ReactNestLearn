@@ -9,7 +9,7 @@ import {
   ParseIntPipe,
   Patch,
   Post,
-  Query
+  Query,
 } from '@nestjs/common';
 import { TodoDto } from '../dtos/TodoDto';
 import { TodoService } from '../services/TodoService';
@@ -27,12 +27,11 @@ export class TodoController {
   async getTodoOrThrowError(
     @Param('id', ParseIntPipe) id: number,
   ): Promise<TodoEntity> {
-    const todo = await this.todoService.getTodoByIdOrThrowError(id);
+    const todo = await this.todoService.getTodoByIdOrThrowNotFoundError(id);
     return todo;
   }
   @Post()
   async createTodoOrThrowError(@Body() todoDto: TodoDto): Promise<ITodo> {
-    //100% up until this point title is not empty
     const newTodo =
       await this.todoService.createTodoWithUniqueNameOrThrowError(todoDto);
     Logger.log({ createdNewTodo: newTodo });

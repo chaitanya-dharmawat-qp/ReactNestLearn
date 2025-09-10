@@ -1,50 +1,51 @@
-import * as mysql from 'mysql2/promise'
-import {execSync} from 'child_process'
-import * as path from 'path'
+import * as mysql from 'mysql2/promise';
+import { execSync } from 'child_process';
+import * as path from 'path';
+import { Logger } from '@nestjs/common';
 
 interface IDatabaseConnectionInfo {
-  host: string
-  port: number
-  username: string
-  password: string
-  connectTimeout?: number // Optional connection timeout
+  host: string;
+  port: number;
+  username: string;
+  password: string;
+  connectTimeout?: number; // Optional connection timeout
 }
 
 // Helper function to get required environment variable or throw error
 const getRequiredEnvVar = (varName: string): string => {
-  const value = process.env[varName]
+  const value = process.env[varName];
   if (!value) {
-    throw new Error(`Required environment variable ${varName} is not set`)
+    throw new Error(`Required environment variable ${varName} is not set`);
   }
-  return value
-}
+  return value;
+};
 
 // Helper function to get required environment variable as number or throw error
 const getRequiredEnvVarAsNumber = (varName: string): number => {
-  const value = process.env[varName]
+  const value = process.env[varName];
   if (!value) {
-    throw new Error(`Required environment variable ${varName} is not set`)
+    throw new Error(`Required environment variable ${varName} is not set`);
   }
-  const numValue = parseInt(value, 10)
+  const numValue = parseInt(value, 10);
   if (isNaN(numValue)) {
     throw new Error(
       `Environment variable ${varName} must be a valid number, got: ${value}`,
-    )
+    );
   }
-  return numValue
-}
+  return numValue;
+};
 
 const getConnectionHost = (): string => {
-  return getRequiredEnvVar('DB_HOST')
-}
+  return getRequiredEnvVar('DB_HOST');
+};
 
 const getConnectionPort = (): number => {
-  return getRequiredEnvVarAsNumber('DB_PORT')
-}
+  return getRequiredEnvVarAsNumber('DB_PORT');
+};
 
 const getContainerName = (): string => {
-  return 'mysql-todo-test'
-}
+  return 'mysql-todo-test';
+};
 
 const getRootConnectionInfo = (): IDatabaseConnectionInfo => {
   return {
@@ -52,8 +53,8 @@ const getRootConnectionInfo = (): IDatabaseConnectionInfo => {
     port: getConnectionPort(),
     username: getRequiredEnvVar('DATABASE_ROOT_USERNAME'),
     password: getRequiredEnvVar('DATABASE_ROOT_PASSWORD'),
-  }
-}
+  };
+};
 
 export async function stopDockerContainer(): Promise<boolean> {
   try {
@@ -61,17 +62,17 @@ export async function stopDockerContainer(): Promise<boolean> {
       __dirname,
       '..',
       'docker-compose.test.yml',
-    )
-    console.log('🛑 Stopping MySQL test container...')
+    );
+    Logger.log('🛑 Stopping MySQL test container...');
 
     execSync(`docker-compose -f ${dockerComposePath} down -v`, {
       encoding: 'utf8',
-    })
-    console.log('✅ MySQL test container stopped and volumes removed')
-    return true
+    });
+    Logger.log('✅ MySQL test container stopped and volumes removed');
+    return true;
   } catch (error) {
-    console.error('❌ Error stopping Docker container:', error)
-    return false
+    console.error('❌ Error stopping Docker container:', error);
+    return false;
   }
 }
 
@@ -81,12 +82,12 @@ async function isDockerContainerRunning(
   try {
     const result = execSync(
       `docker ps --filter "name=${containerName}" --format "{{.Names}}"`,
-      {encoding: 'utf8'},
-    )
-    return result.trim().includes(containerName)
+      { encoding: 'utf8' },
+    );
+    return result.trim().includes(containerName);
   } catch (error) {
-    console.log('⚠️  Error checking Docker container status:', error)
-    return false
+    Logger.log('⚠️  Error checking Docker container status:', error);
+    return false;
   }
 }
 
@@ -96,82 +97,77 @@ async function startDockerContainer(): Promise<boolean> {
       __dirname,
       '..',
       'docker-compose.test.yml',
-    )
-    console.log('🚀 Starting MySQL test container...')
+    );
+    Logger.log('🚀 Starting MySQL test container...');
     // Start the container using docker-compose
-    execSync(`docker-compose -f ${dockerComposePath} up -d mysql-todo-test`, {
-      encoding: 'utf8',
-    })
-
     // Wait for the container to be healthy
-    console.log('⏳ Waiting 1 min for MySQL container to be ready...')
-    await new Promise(resolve => setTimeout(resolve, 30000)) // Wait up to 1 minutes for the container to be ready
-    let retries = 12 // 12 retries with 10-second intervals = 120 seconds max
+    
+    let retries = 60; //60 retries=60s
     while (retries > 0) {
       try {
-        console.log('🔄 Checking MySQL container health...')
+        execSync(
+          `docker-compose -f ${dockerComposePath} up -d mysql-todo-test`,
+          {
+            encoding: 'utf8',
+          },
+        );
+        await new Promise((resolve) => setTimeout(resolve, 5000));
+        Logger.log('Waiting 5 seconds for container to be ready');
         // Try to connect to the database using root credentials
-        const connection = await createConnection(getRootConnectionInfo())
-        await connection.ping()
-        await connection.end()
-        console.log('✅ MySQL container is ready!')
-        return true
+        const connection = await createConnection(getRootConnectionInfo());
+        await connection.ping();
+        await connection.end();
+        Logger.log('✅ MySQL container is ready!');
+        return true;
       } catch (error) {
-        retries--
+        retries--;
+
         if (retries === 0) {
-          console.error(
-            '❌ MySQL container failed to become ready within timeout',
-            error,
-          )
-          return false
+          Logger.error('Error Trying to Start Docker Container:' + error);
+          return false;
         }
-        await new Promise(resolve => setTimeout(resolve, 10000)) // Wait 10 seconds
+        await new Promise((resolve) => setTimeout(resolve, 3000)); // Wait 3 second
       }
     }
 
-    return false
+    return false;
   } catch (error) {
-    console.error('❌ Error starting Docker container:', error)
-    return false
+    console.error('❌ Error starting Docker container:', error);
+    return false;
   }
 }
 
 async function createConnection(
   info: IDatabaseConnectionInfo,
 ): Promise<mysql.Connection> {
-  const connectionInfo = info
-  console.log(
+  const connectionInfo = info;
+  Logger.log(
     `🔌 Trying to connect to MySQL at ${connectionInfo.host}:${connectionInfo.port} with user ${connectionInfo.username}...`,
-  )
+  );
   try {
     return await mysql.createConnection({
       host: connectionInfo.host,
       port: connectionInfo.port,
       user: connectionInfo.username,
       password: connectionInfo.password,
-      connectTimeout: connectionInfo.connectTimeout || 15000, // Increase timeout to 15 seconds
-      // Add other connection settings that might help with stability
+      connectTimeout: connectionInfo.connectTimeout || 15000, 
       timezone: 'Z',
       multipleStatements: true,
-    })
+    });
   } catch (error) {
-    console.error(
-      `❌ Failed to connect to MySQL at ${connectionInfo.host}:${connectionInfo.port}:`,
-      error,
-    )
-    throw error
+    throw error;
   }
 }
 
 export const ensureDockerContainerRunning = async (): Promise<boolean> => {
-  const containerName = getContainerName()
+  const containerName = getContainerName();
 
-  const isRunning = await isDockerContainerRunning(containerName)
+  const isRunning = await isDockerContainerRunning(containerName);
   if (isRunning) {
-    console.log('✅ MySQL test container is already running')
-    return true
+    Logger.log('✅ MySQL test container is already running');
+    return true;
   }
 
-  console.log('🚀 MySQL test container is not running, starting it...')
-  return await startDockerContainer()
-}
+  Logger.log('🚀 MySQL test container is not running, starting it...');
+  return await startDockerContainer();
+};

@@ -5,7 +5,7 @@ import { TodoDto } from '../dtos/TodoDto';
 
 @Injectable()
 export class TodoService {
-  constructor( private readonly todoRepository: TodoRepository) {}
+  constructor(private readonly todoRepository: TodoRepository) {}
 
   async deleteTodoByTitleOrThrowError(title: string): Promise<TodoEntity> {
     if (!title || !(title.length > 1)) {
@@ -44,10 +44,17 @@ export class TodoService {
     } else return todos;
   }
 
-  /**Creates todo with unique name or throws error if duplicate name is found */
+  /**Creates todo with unique name or throws error if duplicate name is found or todo is null*/
   async createTodoWithUniqueNameOrThrowError(
     todoI: TodoDto,
   ): Promise<TodoEntity> {
+    if (todoI && todoI.title && todoI.title.trim().length <= 0) {
+      throw new HttpException(
+        `Todo Cannot have empty title`,
+        HttpStatus.PRECONDITION_FAILED,
+        { cause: 'Todo Cannot have empty title' },
+      );
+    }
     const todo = await this.todoRepository.createTodoOrReturnNull(todoI);
     if (todo) {
       return todo;
@@ -60,13 +67,12 @@ export class TodoService {
     }
   }
 
-  async getTodoByIdOrThrowError(id: number): Promise<TodoEntity> {
+  async getTodoByIdOrThrowNotFoundError(id: number): Promise<TodoEntity> {
     const todo = await this.todoRepository.getTodoByIdOrReturnNull(id);
-    if (todo && todo!=null) {
+    if (todo && todo != null) {
       return todo;
-    }
-    else{
-       throw new HttpException(
+    } else {
+      throw new HttpException(
         `Todo With Id:${id} Not Found`,
         HttpStatus.NOT_FOUND,
       );

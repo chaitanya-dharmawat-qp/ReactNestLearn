@@ -17,9 +17,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
     private readonly httpAdapterHost: HttpAdapterHost,
     private readonly errorLogService: ErrorLogService,
   ) {
-    this.errorLogService
-      .getAllLogsFromDb()
-      .then((errors) => Logger.warn({ fetcingAllErrors: errors }));
+    // this.errorLogService.getAllLogsFromDb().then((errors) => Logger.warn({ fetchingAllErrorsFromDb: errors }));
   }
 
   async catch(exception: unknown, host: ArgumentsHost): Promise<void> {
@@ -33,11 +31,11 @@ export class AllExceptionsFilter implements ExceptionFilter {
         httpStatus = exception.getStatus();
         // Log error if http status is >= 400 i.e. All server  errors
         if (httpStatus >= 400) {
-          this.logger.error(exception.stack);
+          // this.logger.error(exception.stack);
           parsedException = await this.errorLogService.logToDb(exception);
         }
       } else if (exception) {
-        this.logger.error(exception);
+        // this.logger.error(exception);
         httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         parsedException =
           await this.errorLogService.logGenericErrorToDb(exception);

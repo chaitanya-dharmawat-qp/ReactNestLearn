@@ -13,17 +13,13 @@ const startTestApp = async (): Promise<ITestApp> => {
   const moduleRef = await Test.createTestingModule({
     imports: [AppModule],
   }).compile();
-
   const app = moduleRef.createNestApplication();
   app.useGlobalPipes(new ValidationPipe());
   await app.init();
-
   return {
     app,
     moduleRef,
-    services: {
-      todoService: moduleRef.get<TodoService>(TodoService),
-    },
+    services: {todoService: moduleRef.get<TodoService>(TodoService),},
   };
 };
 
