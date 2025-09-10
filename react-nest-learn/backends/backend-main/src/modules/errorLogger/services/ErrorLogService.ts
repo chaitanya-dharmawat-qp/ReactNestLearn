@@ -1,5 +1,5 @@
 import { ErrorLogRepository } from '@modules/errorLogger/repositories/ErrorLogRepository';
-import { HttpException, Inject, Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { ErrorLogEntity } from '../entities/ErrorLogEntity';
 
 @Injectable()

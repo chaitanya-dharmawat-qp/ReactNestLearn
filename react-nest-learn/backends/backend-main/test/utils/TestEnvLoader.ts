@@ -1,7 +1,7 @@
-import * as dotenv from 'dotenv'
-import {join} from 'path'
+import * as dotenv from 'dotenv';
+import { join } from 'path';
 
-let isLoaded = false
+let isLoaded = false;
 
 /**
  * Load environment variables for tests
@@ -9,10 +9,10 @@ let isLoaded = false
  */
 export function loadTestEnvironment(): void {
   if (isLoaded) {
-    return
+    return;
   }
 
-  const environment = process.env.ENVIRONMENT || 'test'
+  const environment = process.env.ENVIRONMENT || 'test';
 
   // For local testing, load the test environment file
   const envFilePath = join(
@@ -22,17 +22,17 @@ export function loadTestEnvironment(): void {
     'src',
     'config',
     `.env.${environment}`,
-  )
-  console.log(`🔧 Loading environment from: ${envFilePath}`)
-  dotenv.config({path: envFilePath})
-  isLoaded = true
+  );
+  console.log(`🔧 Loading environment from: ${envFilePath}`);
+  dotenv.config({ path: envFilePath });
+  isLoaded = true;
 }
 
 /**
  * Reset the loader state (useful for testing)
  */
 export function resetTestEnvironment(): void {
-  isLoaded = false
+  isLoaded = false;
 }
 
 /**
@@ -41,4 +41,4 @@ export function resetTestEnvironment(): void {
 export const testEnvLoader = {
   loadTestEnvironment,
   resetTestEnvironment,
-}
+};

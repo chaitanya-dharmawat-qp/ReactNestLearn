@@ -4,7 +4,6 @@ import { ANOTHER_DATA_SOURCE } from '../../database/constants/DatabaseConstants'
 
 export const anotherDatabaseProviders = [
   {
-    
     provide: ANOTHER_DATA_SOURCE,
     useFactory: async (): Promise<DataSource> => {
       const dataSource = new DataSource({

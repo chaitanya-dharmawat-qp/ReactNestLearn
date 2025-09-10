@@ -7,10 +7,11 @@
   "testRegex": ".e2e.ts$",
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
-  },
+  },  
   "setupFilesAfterEnv": ["<rootDir>/test/setupTests.ts"],
   "globalSetup": "<rootDir>/test/globalSetupTest.ts",
   "globalTeardown": "<rootDir>/test/globalTeardownTest.ts",
+  
   "moduleNameMapper": {
     "^@modules/(.*)$": "<rootDir>/../src/modules/$1",
     "^@modules$": "<rootDir>/../src/modules",

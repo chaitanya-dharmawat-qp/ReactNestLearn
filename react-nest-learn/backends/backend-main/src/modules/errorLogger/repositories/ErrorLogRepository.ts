@@ -42,6 +42,7 @@ export class ErrorLogRepository {
     });
     return await this.repository.save(ex);
   }
+  /**this is for debugging purposes in case someone wants all logs to dump */
   async getAllLogsFromDb(): Promise<ErrorLogEntity[]> {
     const logs = await this.repository.find();
     return logs ?? [];

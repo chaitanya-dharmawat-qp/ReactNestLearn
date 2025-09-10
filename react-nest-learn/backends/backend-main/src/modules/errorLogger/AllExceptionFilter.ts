@@ -43,8 +43,8 @@ export class AllExceptionsFilter implements ExceptionFilter {
       this.httpAdapterHost.httpAdapter.reply(
         http.getResponse(),
         {
-          message: parsedException?.errormessage??"Internal Server Error",
-          code: parsedException?.errorcode??500,
+          message: parsedException?.errormessage ?? 'Internal Server Error',
+          code: parsedException?.errorcode ?? 500,
         },
         httpStatus,
       );

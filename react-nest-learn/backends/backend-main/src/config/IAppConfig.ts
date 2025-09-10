@@ -1,12 +1,12 @@
 export interface IAppConfig {
   app: {
-    port: number
-  }
+    port: number;
+  };
   database: {
-    host: string
-    port: number
-    username: string
-    password: string
-    databaseName: string
-  }
+    host: string;
+    port: number;
+    username: string;
+    password: string;
+    databaseName: string;
+  };
 }

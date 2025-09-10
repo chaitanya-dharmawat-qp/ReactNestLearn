@@ -3,7 +3,7 @@ import { execSync } from 'child_process';
 import * as path from 'path';
 
 module.exports = async (): Promise<void> => {
-  const logger = new Logger(__filename)
+  const logger = new Logger(__filename);
   logger.log('🏁 GLOBAL TEARDOWN START');
 
   try {
@@ -22,6 +22,5 @@ module.exports = async (): Promise<void> => {
     logger.error('❌ Error starting Docker container:', error);
     throw new Error('Failed to start MySQL Docker container');
   }
-
   logger.log('✅ GLOBAL TEARDOWN END');
 };

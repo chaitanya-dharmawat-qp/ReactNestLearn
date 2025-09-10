@@ -10,7 +10,7 @@ interface IDatabaseConnectionInfo {
   password: string;
   connectTimeout?: number; // Optional connection timeout
 }
-const logger = new Logger(__filename)
+const logger = new Logger(__filename);
 
 // Helper function to get required environment variable or throw error
 const getRequiredEnvVar = (varName: string): string => {
@@ -102,8 +102,8 @@ async function startDockerContainer(): Promise<boolean> {
     Logger.log('🚀 Starting MySQL test container...');
     // Start the container using docker-compose
     // Wait for the container to be healthy
-    
-    let retries = 60; //60 retries=60s
+
+    let retries = 10; //10 retries=10*5000=50s
     while (retries > 0) {
       try {
         execSync(
@@ -145,19 +145,16 @@ async function createConnection(
   Logger.log(
     `🔌 Trying to connect to MySQL at ${connectionInfo.host}:${connectionInfo.port} with user ${connectionInfo.username}...`,
   );
-  try {
-    return await mysql.createConnection({
-      host: connectionInfo.host,
-      port: connectionInfo.port,
-      user: connectionInfo.username,
-      password: connectionInfo.password,
-      connectTimeout: connectionInfo.connectTimeout || 15000, 
-      timezone: 'Z',
-      multipleStatements: true,
-    });
-  } catch (error) {
-    throw error;
-  }
+
+  return await mysql.createConnection({
+    host: connectionInfo.host,
+    port: connectionInfo.port,
+    user: connectionInfo.username,
+    password: connectionInfo.password,
+    connectTimeout: connectionInfo.connectTimeout || 15000,
+    timezone: 'Z',
+    multipleStatements: true,
+  });
 }
 
 export const ensureDockerContainerRunning = async (): Promise<boolean> => {

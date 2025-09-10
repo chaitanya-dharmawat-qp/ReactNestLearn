@@ -2,7 +2,7 @@
 
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('ErrorLogEntity',{name:"ErrorLogEntity"})
+@Entity('ErrorLogEntity', { name: 'ErrorLogEntity' })
 export class ErrorLogEntity {
   @PrimaryGeneratedColumn()
   id: number;

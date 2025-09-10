@@ -1,16 +1,16 @@
-import {DataSource} from 'typeorm'
-import {DATA_SOURCE} from '../constants/DatabaseConstants'
-import {ConfigService} from '@nestjs/config'
-import {IAppConfig} from '@src/config/IAppConfig'
+import { DataSource } from 'typeorm';
+import { DATA_SOURCE } from '../constants/DatabaseConstants';
+import { ConfigService } from '@nestjs/config';
+import { IAppConfig } from '@src/config/IAppConfig';
 
 export const databaseProviders = [
   {
     provide: DATA_SOURCE,
     useFactory: async (configService: ConfigService): Promise<DataSource> => {
       const databaseConfig =
-        configService.get<IAppConfig['database']>('database')
+        configService.get<IAppConfig['database']>('database');
       if (!databaseConfig) {
-        throw new Error('Database configuration is not defined')
+        throw new Error('Database configuration is not defined');
       }
       const dataSource = new DataSource({
         type: 'mysql',
@@ -20,12 +20,12 @@ export const databaseProviders = [
         password: databaseConfig.password,
         database: databaseConfig.databaseName,
         entities: [__dirname + '/../../**/*Entity{.ts,.js}'],
-        synchronize:true //TODO:Remove in production
-      })
+        synchronize: true, //TODO:Remove in production
+      });
 
-      const db = await dataSource.initialize()
-      return db
+      const db = await dataSource.initialize();
+      return db;
     },
     inject: [ConfigService],
   },
-]
+];
