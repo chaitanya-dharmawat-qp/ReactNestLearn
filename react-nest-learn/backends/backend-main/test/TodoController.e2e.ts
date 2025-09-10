@@ -80,6 +80,18 @@ describe('TodoController E2E Tests', () => {
       expect(response.status).toBe(HttpStatus.BAD_REQUEST);
     });
   });
+  describe('Update /todos', () => {
+    test('should throw error that "todo not found"', async () => {
+      const updateTodo: TodoDto = {
+        title: 'unknown todo title',
+        status: 'completed',
+      };
+      const response = await request(testApp.app.getHttpServer())
+        .patch('/todos/')
+        .send(updateTodo);
+      expect(response.status).toBe(HttpStatus.NOT_FOUND);
+    });
+  });
   describe('Delete /todos', () => {
     test('should throw error "todo not found"', async () => {
       const deletingTodoDto: TodoDto = {
@@ -92,19 +104,18 @@ describe('TodoController E2E Tests', () => {
         .send();
       expect(response.status).toBe(HttpStatus.NOT_FOUND);
     });
-
-    describe('Delete /todos', () => {
-      test('should delete todo and return Status OK', async () => {
-        const deletingTodoDto: TodoDto = {
-          title: 'Test Todo',
-          status: 'completed',
-        };
-        const response = await request(testApp.app.getHttpServer())
-          .delete('/todos/')
-          .query(deletingTodoDto)
-          .send();
-        expect(response.status).toBe(HttpStatus.OK);
-      });
+  });
+  describe('Delete /todos', () => {
+    test('should delete todo and return Status OK', async () => {
+      const deletingTodoDto: TodoDto = {
+        title: 'Test Todo',
+        status: 'completed',
+      };
+      const response = await request(testApp.app.getHttpServer())
+        .delete('/todos/')
+        .query(deletingTodoDto)
+        .send();
+      expect(response.status).toBe(HttpStatus.OK);
     });
   });
 });

@@ -12,7 +12,7 @@ module.exports = async (): Promise<void> => {
       '..',
       'docker-compose.test.yml',
     );
-    logger.log('🚀 Starting MySQL test container...');
+    logger.log('Stopping MySQL test container...');
     // Start the container using docker-compose
     execSync(`docker-compose -f ${dockerComposePath} down`, {
       encoding: 'utf8',
