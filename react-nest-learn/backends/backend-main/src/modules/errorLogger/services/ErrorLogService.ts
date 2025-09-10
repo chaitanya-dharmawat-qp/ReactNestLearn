@@ -4,7 +4,7 @@ import { ErrorLogEntity } from '../entities/ErrorLogEntity';
 
 @Injectable()
 export class ErrorLogService {
-  constructor(@Inject() private readonly repository: ErrorLogRepository) {}
+  constructor(private readonly repository: ErrorLogRepository) {}
   async logToDb(exception: HttpException): Promise<ErrorLogEntity> {
     return this.repository.logHttpExceptionToDb(exception);
   }

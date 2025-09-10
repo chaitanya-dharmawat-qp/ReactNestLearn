@@ -8,12 +8,7 @@ export class TodoService {
   constructor(private readonly todoRepository: TodoRepository) {}
 
   async deleteTodoByTitleOrThrowError(title: string): Promise<TodoEntity> {
-    if (!title || !(title.length > 1)) {
-      throw new HttpException(
-        `Title cannot be empty`,
-        HttpStatus.PRECONDITION_FAILED,
-      );
-    }
+    this.validateTitleOrThrowException(title);
     const todo = await this.todoRepository.deleteTodoByTitleOrReturnNull(title);
     if (todo) {
       return todo;
@@ -24,6 +19,15 @@ export class TodoService {
       );
     }
   }
+  private validateTitleOrThrowException(title: string): void {
+    if (!title || !(title.length > 1)) {
+      throw new HttpException(
+        `Title cannot be empty`,
+        HttpStatus.PRECONDITION_FAILED,
+      );
+    }
+  }
+
   async updateTodoStatusOrThrowError(todoDto: TodoDto): Promise<TodoEntity> {
     const newtodo =
       await this.todoRepository.updateTodoStatusOrReturnNull(todoDto);
@@ -48,13 +52,7 @@ export class TodoService {
   async createTodoWithUniqueNameOrThrowError(
     todoI: TodoDto,
   ): Promise<TodoEntity> {
-    if (todoI && todoI.title && todoI.title.trim().length <= 0) {
-      throw new HttpException(
-        `Todo Cannot have empty title`,
-        HttpStatus.PRECONDITION_FAILED,
-        { cause: 'Todo Cannot have empty title' },
-      );
-    }
+    this.validateTitleOrThrowException(todoI.title);
     const todo = await this.todoRepository.createTodoOrReturnNull(todoI);
     if (todo) {
       return todo;
