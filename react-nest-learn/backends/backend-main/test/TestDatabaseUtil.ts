@@ -10,6 +10,7 @@ interface IDatabaseConnectionInfo {
   password: string;
   connectTimeout?: number; // Optional connection timeout
 }
+const logger = new Logger(__filename)
 
 // Helper function to get required environment variable or throw error
 const getRequiredEnvVar = (varName: string): string => {
@@ -71,7 +72,7 @@ export async function stopDockerContainer(): Promise<boolean> {
     Logger.log('✅ MySQL test container stopped and volumes removed');
     return true;
   } catch (error) {
-    console.error('❌ Error stopping Docker container:', error);
+    logger.error('❌ Error stopping Docker container:', error);
     return false;
   }
 }
@@ -132,7 +133,7 @@ async function startDockerContainer(): Promise<boolean> {
 
     return false;
   } catch (error) {
-    console.error('❌ Error starting Docker container:', error);
+    logger.error('❌ Error starting Docker container:', error);
     return false;
   }
 }
